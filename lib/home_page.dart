@@ -12,13 +12,23 @@ class MyHomePage extends StatefulWidget {
   State<StatefulWidget> createState()=>_MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   //使用控制Tabbar切换
   TabController _tabController;
+  UpdatedItemModel _itemModel;
 
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 2);
+    _itemModel = UpdatedItemModel(
+                  appIcon:"assets/icon.png",
+                  appDescription:"Thanks for using Google Maps! This release brings bug fixes that improve our product to help you discover new places and navigate to them.",
+                  appName: "Google Maps - Transit & Fond",
+                  appSize: "137.2",
+                  appVersion: "Version 5.19",
+                  appDate: "2019年6月5日",
+                  descExpended: false
+              );
   }
 
   @override
@@ -43,15 +53,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         children: <Widget>[
           ListView(
             children: <Widget>[
-              UpdatedItemWidget(model: UpdatedItemModel(
-                  appIcon:"assets/icon.png",
-                  appDescription:"Thanks for using Google Maps! This release brings bug fixes that improve our product to help you discover new places and navigate to them.",
-                  appName: "Google Maps - Transit & Fond",
-                  appSize: "137.2",
-                  appVersion: "Version 5.19",
-                  appDate: "2019年6月5日"
-              ), onPressed: () {},
-              )
+              UpdatedItemWidget(model: _itemModel, onPressed: () {},)
             ],
           ),
           Center(child: Cake())

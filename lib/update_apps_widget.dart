@@ -8,7 +8,9 @@ class UpdatedItemModel {
   String appDate;
   String appDescription;
   String appVersion;
-  UpdatedItemModel({this.appIcon, this.appName, this.appSize, this.appDate, this.appDescription, this.appVersion});
+  bool descExpended;
+  double expendedHeight = 0;
+  UpdatedItemModel({this.appIcon, this.appName, this.appSize, this.appDate, this.appDescription, this.appVersion, this.descExpended, this.expendedHeight = 0});
 }
 
 class UpdatedItemWidget extends StatefulWidget {
@@ -24,10 +26,8 @@ class UpdatedItemWidget extends StatefulWidget {
 class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
   GlobalKey _topKey = GlobalKey();
   GlobalKey _expendKey = GlobalKey();
-  num _topWidgetHeight = 100;
-  num _expendHeight = 0;
-  num _maxDisplayHeight = 136;
-  bool _expended = false;
+  double _topWidgetHeight = 100;
+  double _maxDisplayHeight = 136;
 
 //创建上半部分
   Widget buildTopRow(BuildContext context) {
@@ -83,9 +83,9 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
   Widget build(BuildContext context) {
     Color _accentColor = Theme.of(context).canvasColor;
     List _widgetList = <Widget>[
-        Container(height: _expended ? (_topWidgetHeight + _expendHeight).toDouble() : _maxDisplayHeight.toDouble(), color: _accentColor),
+        Container(height: widget.model.descExpended ? (_topWidgetHeight + widget.model.expendedHeight) : _maxDisplayHeight, color: _accentColor),
         Positioned(key:_topKey, left:0, top:0, right: 0, child:buildTopRow(context)),
-        Positioned(key:_expendKey, left:0, top:_topWidgetHeight.toDouble(), right: 0, child: buildBottomRow(context)),
+        Positioned(key:_expendKey, left:0, top:_topWidgetHeight, right: 0, child: buildBottomRow(context)),
       ];
 
     List _morewidgetList = List<Widget>.from(_widgetList);
@@ -114,12 +114,12 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
                 style: TextStyle(color: Colors.blue)
                 ),
             ),
-            onPressed: () { setState(() => _expended = !_expended); },
+            onPressed: () { setState(() => widget.model.descExpended = !widget.model.descExpended); },
             ),
           ),
         )
     ); // List Add
-    return Stack(children: _expended ? _widgetList : _morewidgetList);
+    return Stack(children: widget.model.descExpended ? _widgetList : _morewidgetList);
   }
 
   @override
@@ -134,13 +134,16 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
     super.didUpdateWidget(oldWidget);
   }
   
-  _getContainerHeight(_){
+  _getContainerHeight(_) {
     _topWidgetHeight = _topKey.currentContext.size.height;
-    _expendHeight = _expendKey.currentContext.size.height;
-    _expended = _expendHeight < 50;
+    widget.model.expendedHeight = _expendKey.currentContext.size.height;
+
+    if (!widget.model.descExpended) {
+      widget.model.descExpended = widget.model.expendedHeight < 50;
+    }
     
     print("_topWidgetHeight >>>> $_topWidgetHeight");
-    print("_expendHeight >>>> $_expendHeight");
+    print("_expendHeight >>>> $widget.model.expendedHeight");
   }
 }
 
