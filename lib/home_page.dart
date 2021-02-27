@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'app_options.dart';
 import 'update_apps_widget.dart';
 import 'paint_page.dart';
+import 'package:date_format/date_format.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -16,6 +18,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   //使用控制Tabbar切换
   TabController _tabController;
   UpdatedItemModel _itemModel;
+  Timer _launchTimer;
+  String _dateText;
 
   void initState() {
     super.initState();
@@ -26,9 +30,18 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   appName: "Google Maps - Transit & Fond",
                   appSize: "137.2",
                   appVersion: "Version 5.19",
-                  appDate: "2019年6月5日",
+                  appDate: formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日']),
                   descExpended: false
               );
+    _dateText = formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日', HH, ':', nn, ':', ss]);
+    _launchTimer = Timer.periodic(
+        const Duration(
+          seconds: 1,
+        ),
+        (timer) {
+          setState(() => _dateText = formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日', HH, ':', nn, ':', ss]));
+        },
+      );
   }
 
   @override
@@ -53,7 +66,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         children: <Widget>[
           ListView(
             children: <Widget>[
-              UpdatedItemWidget(model: _itemModel, onPressed: () {},)
+              UpdatedItemWidget(model: _itemModel, onPressed: () {}),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Text(
+                  _dateText, 
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.greenAccent[400], fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+              ),
             ],
           ),
           Center(child: Cake())
@@ -72,6 +93,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void dispose() {
     _tabController.dispose();
+    _launchTimer?.cancel();
+    _launchTimer = null;
     super.dispose();
   }
 }

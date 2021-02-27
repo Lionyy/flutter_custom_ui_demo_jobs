@@ -14,6 +14,8 @@ class UpdatedItemModel {
 }
 
 class UpdatedItemWidget extends StatefulWidget {
+  static const _maxDescHeight = 50;
+
   final UpdatedItemModel model;
   final VoidCallback onPressed;
 
@@ -139,7 +141,7 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
     widget.model.expendedHeight = _expendKey.currentContext.size.height;
 
     if (!widget.model.descExpended) {
-      widget.model.descExpended = widget.model.expendedHeight < 50;
+      widget.model.descExpended = widget.model.expendedHeight < UpdatedItemWidget._maxDescHeight;
     }
     
     print("_topWidgetHeight >>>> $_topWidgetHeight");
