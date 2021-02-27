@@ -29,7 +29,7 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
   GlobalKey _topKey = GlobalKey();
   GlobalKey _expendKey = GlobalKey();
   double _topWidgetHeight = 100;
-  double _maxDisplayHeight = 136;
+  final double _maxDisplayHeight = 136;
 
 //创建上半部分
   Widget buildTopRow(BuildContext context) {
@@ -83,14 +83,14 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Color _accentColor = Theme.of(context).canvasColor;
-    List _widgetList = <Widget>[
+    final _accentColor = Theme.of(context).canvasColor;
+    final _widgetList = <Widget>[
         Container(height: widget.model.descExpended ? (_topWidgetHeight + widget.model.expendedHeight) : _maxDisplayHeight, color: _accentColor),
         Positioned(key:_topKey, left:0, top:0, right: 0, child:buildTopRow(context)),
         Positioned(key:_expendKey, left:0, top:_topWidgetHeight, right: 0, child: buildBottomRow(context)),
       ];
 
-    List _morewidgetList = List<Widget>.from(_widgetList);
+    final _morewidgetList = List<Widget>.from(_widgetList);
     _morewidgetList.add(
       Positioned(
         bottom:-5, 
@@ -145,7 +145,7 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
     }
     
     print("_topWidgetHeight >>>> $_topWidgetHeight");
-    print("_expendHeight >>>> $widget.model.expendedHeight");
+    print("_expendHeight >>>> ${widget.model.expendedHeight}");
   }
 }
 
