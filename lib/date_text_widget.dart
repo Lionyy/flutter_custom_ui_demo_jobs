@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:custom_ui_demo/app_options.dart';
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 

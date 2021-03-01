@@ -18,20 +18,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   //使用控制Tabbar切换
   TabController _tabController;
-  UpdatedItemModel _itemModel;
+  List _updateItemModels;
 
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2);
-    _itemModel = UpdatedItemModel(
-                  appIcon:"assets/icon.png",
-                  appDescription:"Thanks for using Google Maps! This release brings bug fixes that improve our product to help you discover new places and navigate to them.",
-                  appName: "Google Maps - Transit & Fond",
-                  appSize: "137.2",
-                  appVersion: "Version 5.19",
-                  appDate: formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日']),
-                  descExpended: false
-              );
+    _tabController = TabController(vsync: this, length: 2);
+    _updateItemModels = [
+      UpdatedItemModel(
+        appIcon:"assets/icon.png",
+        appDescription:"Thanks for using Google Maps! This release brings bug fixes that improve our product to help you discover new places and navigate to them.",
+        appName: "Google Maps - Transit & Fond",
+        appSize: "137.2",
+        appVersion: "Version 5.19",
+        appDate: formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日']),
+        descExpended: false
+        ),
+      UpdatedItemModel(
+        appIcon:"assets/icon.png",
+        appDescription:"Thanks for using Google Maps! This release brings bug fixes that improve our product to help you discover new places and navigate to them.",
+        appName: "Google Maps - Transit & Fond",
+        appSize: "137.2",
+        appVersion: "Version 5.19",
+        appDate: formatDate(DateTime.now(), [yyyy, '年', mm, '月', dd, '日']),
+        descExpended: false
+        )
+        ];
   }
 
   @override
@@ -54,14 +65,17 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          ListView(
-            children: <Widget>[
-              UpdatedItemWidget(model: _itemModel, onPressed: () {}),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: DateText(),
-              ),
-            ],
+          ListView.builder(
+            itemCount: _updateItemModels.length + 1, 
+            itemBuilder: (BuildContext context, int index) {
+              if (index >= _updateItemModels.length) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: DateText(),
+                );
+              }
+              return UpdatedItemWidget(model: _updateItemModels[index], onPressed: () {});
+            },
           ),
           Center(child: Cake())
         ],
@@ -73,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           context, 
           _options.copyWith(themeMode: _options.systemBrightness() == Brightness.light ? ThemeMode.dark : ThemeMode.light)
           )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 

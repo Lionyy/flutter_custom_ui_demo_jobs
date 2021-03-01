@@ -100,14 +100,12 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
           child: TextButton(
             style: TextButton.styleFrom(primary: Colors.blue[700], padding: EdgeInsets.fromLTRB(0, 0, 5, 1), alignment: Alignment.bottomRight),
             child: Container(
-              width: 50,
+              width: 52,
               height: 18,
               alignment: Alignment.bottomRight,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [_accentColor.withAlpha(220), _accentColor.withAlpha(250), _accentColor],
-                  begin: FractionalOffset.centerLeft,
-                  end: FractionalOffset.centerRight,
+                  colors: [_accentColor.withOpacity(0.95), _accentColor],
                   ),
                 ),
               child: Text(
@@ -121,7 +119,20 @@ class _UpdatedItemWidgetState extends State<UpdatedItemWidget> {
           ),
         )
     ); // List Add
-    return Stack(children: widget.model.descExpended ? _widgetList : _morewidgetList);
+
+    return Column(
+      children: [
+        Stack(children: widget.model.descExpended ? _widgetList : _morewidgetList),
+        Container(
+          color: Theme.of(context).canvasColor, 
+          height: 10, 
+          alignment: Alignment.bottomLeft, 
+          child: Container(
+            margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            color: Theme.of(context).focusColor, 
+            height: 1),
+          ),
+      ],);
   }
 
   @override
