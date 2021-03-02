@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               return UpdatedItemWidget(model: _updateItemModels[index], onPressed: () {});
             },
           ),
-          Center(child: Cake())
+          // Cake(),
+          Container(color: Colors.grey[700], alignment: Alignment.center, child: Cake(),)
         ],
       ),
       floatingActionButton: ElevatedButton(
